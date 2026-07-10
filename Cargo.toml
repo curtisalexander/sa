@@ -1,0 +1,31 @@
+[package]
+name = "sa"
+version = "0.1.0"
+edition = "2024"
+description = "Keep a Windows machine awake"
+license = "MIT"
+repository = "https://github.com/curtisalexander/sa"
+
+[[bin]]
+name = "sa"
+path = "src/main.rs"
+
+[lib]
+name = "sa"
+path = "src/lib.rs"
+
+[dependencies]
+anyhow = "1.0"
+clap = { version = "4.6", features = ["derive"] }
+colored = "3.1"
+ctrlc = "3.5"
+indicatif = "0.17"
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.61", features = ["Win32_System_Power"] }
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
