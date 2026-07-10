@@ -24,19 +24,31 @@ Keep a Windows machine awake.
 
 ## Install
 
-Windows x64. Grab the wheel from the [Releases](https://github.com/curtisalexander/sa/releases) page and let [uv](https://docs.astral.sh/uv/) put `sa` on your PATH:
+Windows x64. `sa` is a Rust binary wrapped in a Python wheel (via [maturin](https://www.maturin.rs/)), so it installs like any Python tool — **no Rust toolchain required** on the target machine.
+
+### With `uv tool install` (recommended)
 
 ```pwsh
-uv tool install https://github.com/curtisalexander/sa/releases/latest/download/sa-0.1.0-py3-none-win_amd64.whl
+uv tool install --no-index --find-links https://github.com/curtisalexander/sa/releases/expanded_assets/v0.1.0 sa
 ```
 
-To upgrade, point at the newer wheel and add `--force`. To remove it:
+The `sa` command is then available on your `PATH`. To upgrade, point `--find-links` at a newer tag and add `--force`. To remove it:
 
 ```pwsh
 uv tool uninstall sa
 ```
 
-Building from source instead needs a [Rust toolchain](https://rustup.rs/):
+### From a wheel URL
+
+The [Releases](https://github.com/curtisalexander/sa/releases) page carries one wheel per version:
+
+```pwsh
+uv tool install https://github.com/curtisalexander/sa/releases/download/v0.1.0/sa-0.1.0-py3-none-win_amd64.whl
+```
+
+### From source
+
+Needs a [Rust toolchain](https://rustup.rs/), and builds for whatever platform you are on:
 
 ```pwsh
 uv tool install git+https://github.com/curtisalexander/sa
@@ -64,11 +76,11 @@ sa -d -f 1h30m     # display on for an hour and a half
 Usage: sa [OPTIONS]
 
 Options:
-  -d, --display          Keep the display on as well as the machine
-  -f, --for <DURATION>   Stay awake for a fixed duration, then reset (30s, 45m, 2h, 1h30m)
-  -q, --quiet            Print nothing but errors
-  -h, --help             Print help
-  -V, --version          Print version
+  -d, --display         Keep the display on as well as the machine
+  -f, --for <DURATION>  Stay awake for a fixed duration, then reset (30s, 45m, 2h, 1h30m)
+  -q, --quiet           Print nothing but errors
+  -h, --help            Print help (see more with '--help')
+  -V, --version         Print version
 ```
 
 A `--for` duration is a number and a unit — `s`, `m`, `h`, or `d` — and units can be chained: `45s`, `90m`, `2h`, `1h30m`, `1d 12h`. A bare number is rejected, because guessing wrong about `--for 30` means either a machine that sleeps mid-job or one that stays awake all night.

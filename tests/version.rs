@@ -22,12 +22,22 @@ fn python_package_matches_cargo_toml() {
     );
 }
 
+/// Both install URLs pin the release tag, and GitHub 404s a tag or an asset name
+/// that does not exist. A version bump has to carry them along.
 #[test]
-fn readme_install_command_points_at_this_version() {
+fn readme_install_commands_point_at_this_version() {
     let readme = include_str!("../README.md");
-    let expected = format!("sa-{CARGO_VERSION}-py3-none-win_amd64.whl");
+
+    let find_links = format!("releases/expanded_assets/v{CARGO_VERSION}");
     assert!(
-        readme.contains(&expected),
-        "README.md install command should name {expected}"
+        readme.contains(&find_links),
+        "README.md --find-links URL should end in {find_links}"
+    );
+
+    let wheel =
+        format!("releases/download/v{CARGO_VERSION}/sa-{CARGO_VERSION}-py3-none-win_amd64.whl");
+    assert!(
+        readme.contains(&wheel),
+        "README.md wheel URL should be {wheel}"
     );
 }
