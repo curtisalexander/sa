@@ -133,6 +133,7 @@ cargo run --example preview                                                 # dr
 
 - [`stay-awake2`](https://github.com/curtisalexander/stay-awake2) — `Rust`, via the `windows` crate
 - [`stay-awake-rs`](https://github.com/curtisalexander/stay-awake-rs) — `Rust`, loading `kernel32.dll` and transmuting
+- [`stay-awake-odin`](https://github.com/curtisalexander/stay-awake-odin) — `Odin`, binding `Kernel32.lib` with `foreign import`
 - [`stay-awake-cs`](https://github.com/curtisalexander/stay-awake-cs) — `C#`
 
 ## Alternatives
