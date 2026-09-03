@@ -1,6 +1,6 @@
 [package]
 name = "sa"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 description = "Keep a Windows machine awake"
 license = "MIT"
@@ -19,7 +19,7 @@ anyhow = "1.0"
 clap = { version = "4.6", features = ["derive"] }
 colored = "3.1"
 ctrlc = "3.5"
-indicatif = "0.17"
+indicatif = "0.18"
 
 [target.'cfg(windows)'.dependencies]
 windows-sys = { version = "0.61", features = ["Win32_System_Power"] }

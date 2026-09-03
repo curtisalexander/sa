@@ -29,7 +29,7 @@ Windows x64. `sa` is a Rust binary wrapped in a Python wheel (via [maturin](http
 ### With `uv tool install` (recommended)
 
 ```pwsh
-uv tool install --no-index --find-links https://github.com/curtisalexander/sa/releases/expanded_assets/v0.1.0 sa
+uv tool install --no-index --find-links https://github.com/curtisalexander/sa/releases/expanded_assets/v0.1.1 sa
 ```
 
 The `sa` command is then available on your `PATH`. To upgrade, point `--find-links` at a newer tag and add `--force`. To remove it:
@@ -43,7 +43,7 @@ uv tool uninstall sa
 The [Releases](https://github.com/curtisalexander/sa/releases) page carries one wheel per version:
 
 ```pwsh
-uv tool install https://github.com/curtisalexander/sa/releases/download/v0.1.0/sa-0.1.0-py3-none-win_amd64.whl
+uv tool install https://github.com/curtisalexander/sa/releases/download/v0.1.1/sa-0.1.1-py3-none-win_amd64.whl
 ```
 
 ### From source

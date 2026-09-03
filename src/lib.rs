@@ -98,13 +98,12 @@ fn wait(
     }
 
     let start = Instant::now();
-    let deadline = limit.map(|limit| start + limit);
 
     let stop = loop {
         if interrupted.load(Ordering::SeqCst) {
             break Stop::Interrupt;
         }
-        if deadline.is_some_and(|deadline| Instant::now() >= deadline) {
+        if limit.is_some_and(|limit| start.elapsed() >= limit) {
             break Stop::Elapsed;
         }
 
@@ -169,6 +168,18 @@ mod tests {
         });
 
         let (stop, _) = wait(None, Controls { enter: false }, &live(), &interrupted);
+        assert_eq!(stop, Stop::Interrupt);
+    }
+
+    #[test]
+    fn wait_accepts_the_largest_duration_without_overflowing() {
+        let interrupted = AtomicBool::new(true);
+        let (stop, _) = wait(
+            Some(Duration::MAX),
+            Controls { enter: false },
+            &live(),
+            &interrupted,
+        );
         assert_eq!(stop, Stop::Interrupt);
     }
 

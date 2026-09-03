@@ -178,7 +178,7 @@ impl Live {
     pub fn tick(&self, elapsed: Duration) {
         if let Some(limit) = self.limit {
             let left = limit.saturating_sub(elapsed);
-            self.bar.set_position(elapsed.as_millis() as u64);
+            self.bar.set_position(millis(elapsed));
             self.bar.set_message(format!(
                 "awake {}  {}  {} left  {}  {}",
                 clock(elapsed).bright_white(),
@@ -216,11 +216,15 @@ fn build_bar(limit: Option<Duration>) -> ProgressBar {
         .progress_chars("━━╌");
 
     let bar = match limit {
-        Some(limit) => ProgressBar::new(limit.as_millis() as u64),
+        Some(limit) => ProgressBar::new(millis(limit)),
         None => ProgressBar::new_spinner(),
     };
     bar.set_style(style);
     bar
+}
+
+fn millis(duration: Duration) -> u64 {
+    u64::try_from(duration.as_millis()).unwrap_or(u64::MAX)
 }
 
 #[cfg(test)]
@@ -328,6 +332,13 @@ mod tests {
         live.tick(Duration::from_secs(15));
         assert_eq!(live.bar.position(), 15_000);
         assert_eq!(live.bar.length(), Some(60_000));
+        live.clear();
+    }
+
+    #[test]
+    fn a_timed_live_line_caps_unrepresentable_milliseconds() {
+        let live = Live::new(false, Some(Duration::MAX), Controls { enter: true });
+        assert_eq!(live.bar.length(), Some(u64::MAX));
         live.clear();
     }
 }
